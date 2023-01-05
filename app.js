@@ -3,10 +3,29 @@ const fs = require("fs");
 
 const app = express();
 
+//////////////////////////////////////////////////////////////////
+//                MIDDLEWARES
+
 // express.json() is middleware
 // middleware is a function that can modify incoming request data (stands in the middle of the request and the response)
 // without middleware, when sending POST request, will get a res of undefined
 app.use(express.json());
+
+// creating own middleware:
+// want this to be gloablly before all other requests
+// applies to every single request
+app.use((req, res, next) => {
+  console.log("Hello from the middleware!");
+  // never forget to use next in middlewares
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+
+//////////////////////////////////////////////////////////////////
 
 // JSON.parse converts the json into a Javascript array of objects
 const tours = JSON.parse(
@@ -14,8 +33,11 @@ const tours = JSON.parse(
 );
 
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
+
   res.status(200).json({
     status: "success",
+    requestedAt: req.requestTime,
     results: tours.length, // tours is an array with multiple objects
     data: {
       tours,
