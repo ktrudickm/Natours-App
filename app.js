@@ -48,12 +48,12 @@ app.get("/api/v1/tours/:id", (req, res) => {
 
   // OR (another method is if you put if statement after you assign tour after using find() below):
   const tour = tours.find((el) => el.id === id);
-//   if (!tour) {
-//     return res.status(404).json({
-//       status: "fail",
-//       message: "Invalid ID",
-//     });
-//   }
+  //   if (!tour) {
+  //     return res.status(404).json({
+  //       status: "fail",
+  //       message: "Invalid ID",
+  //     });
+  //   }
 
   res.status(200).json({
     status: "success",
@@ -84,6 +84,24 @@ app.post("/api/v1/tours", (req, res) => {
       });
     }
   );
+});
+
+// patch just return the updated portion, not the entire object like put does
+app.patch("/api/v1/tours/:id", (req, res) => {
+
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Invalid ID",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      tour: "<Updated tour here...>",
+    },
+  });
 });
 
 // Starts server
