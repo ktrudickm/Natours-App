@@ -88,7 +88,6 @@ app.post("/api/v1/tours", (req, res) => {
 
 // patch just return the updated portion, not the entire object like put does
 app.patch("/api/v1/tours/:id", (req, res) => {
-
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
       status: "fail",
@@ -101,6 +100,22 @@ app.patch("/api/v1/tours/:id", (req, res) => {
     data: {
       tour: "<Updated tour here...>",
     },
+  });
+});
+
+// delete request
+app.delete("/api/v1/tours/:id", (req, res) => {
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Invalid ID",
+    });
+  }
+
+  // send back null for data when doing a deletion, with 204 error code
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });
 
