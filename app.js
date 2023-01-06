@@ -1,3 +1,5 @@
+// This app.js file contains all thigns pertaining to Express.js
+
 const express = require("express");
 const morgan = require("morgan");
 
@@ -39,7 +41,4 @@ app.use("/api/v1/users", userRouter);
 //////////////////////////////////////////////////////////////
 // 4) Start server
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Running on Port ${PORT}...`);
-});
+module.exports = app;
