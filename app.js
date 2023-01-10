@@ -12,12 +12,17 @@ const app = express();
 // 1) MIDDLEWARES
 // middleware is a function that can modify incoming request data (stands in the middle of the request and the response)
 
-// Morgan is an HTP request logger
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+  // Morgan is an HTTP request logger
+  app.use(morgan("dev"));
+}
 
 // express.json() is middleware
 // without this middleware, when sending POST request, will get a res of undefined
 app.use(express.json());
+
+// middleware for serving static files
+app.use(express.static(`${__dirname}/public`));
 
 // creating own middleware:
 // want this to be gloablly before all other requests
